@@ -1,0 +1,95 @@
+<html>
+
+<head>
+         <title> Api marvel</title>
+         <h1>© 2020 MARVEL</h1>
+ <style>
+    
+   h1{
+       
+    font-size:xx-large;
+    color: brown;
+    font-style:oblique;
+    text-align:center;
+}
+
+   img {
+       width: 400px;
+       border-bottom-style: solid;
+       border-top-left-radius: 16px;
+       border-top-right-radius: 16px;
+    }
+
+   .personagem { 
+        width:  400px;
+        margin: 20px;
+        border-style: solid;
+        border-radius: 16px;
+        text-align: center;
+    }
+ </style>
+</head>
+ 
+
+<body>
+   <div id='herois'
+     style = '
+     display: flex;
+     flex-wrap: wrap;
+     align-items:stretch;
+     '
+     
+   
+   >
+   </div>
+</body>
+
+<script>
+    const timeStamp = '1600620904';
+    const apiKey = '70656d4932698b073c19a8d96653f05c'; //publickey 
+    const md5 = '61abe08b1db17be3781a3a8fccd44523'; //(timeStamp+privatekey+publickey)
+    
+
+    // Requisição da API
+    fetch(`https://gateway.marvel.com:443/v1/public/characters?ts=${timeStamp}&apikey=${apiKey}&hash=${md5}&limit=10`
+    ).then((response) => {
+         return response.json();
+    }).then((jsonParsed) => {
+       const divHero = document.querySelector('#herois');
+
+       jsonParsed.data.results.forEach( element =>{
+          const srcImage = element.thumbnail.path + '.' + element.thumbnail.extension
+          const nameHero = element.name
+
+
+          createDivHero(srcImage, nameHero, divHero);
+    
+    });
+
+        console.log(jsonParsed);
+    
+    });
+
+
+    function createDivHero(srcImage, nameHero, divToAppend) {
+        const divPai = document.createElement('div')
+        const divfilho = document.createElement ('div')
+        const textName = document.createElement ('text')
+        const img = document.createElement ('img')
+        
+        textName.textContent = nameHero
+        img.src = srcImage
+
+        divfilho.appendChild(img)
+        divfilho.appendChild(textName)
+        divPai.appendChild(divfilho)
+        divToAppend.appendChild (divPai)
+
+        divPai.classList.add("personagem");
+    }
+
+</script>
+</html>
+
+
+
